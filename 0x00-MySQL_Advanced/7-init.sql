@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS corrections;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS projects;
-
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
 CREATE TABLE IF NOT EXISTS users (
     id int not null AUTO_INCREMENT,
     name varchar(255) not null,
