@@ -1,6 +1,6 @@
 // add new attribute to document in collection
-db.school.updateOne( { name: "Holberton school" }, {
+db.school.updateOne( { "name": "Holberton school" }, {
   $set: {
-  address: "972 Mission street"
+  "address": "972 Mission street"
 }
 })
