@@ -58,3 +58,16 @@ class Cache:
     def get_int(self, key: str) -> int:
         """ convert bytes to int """
         return self.get(key, int)
+
+
+def replay(method: Callable):
+    """ display history of calls of method """
+    storage = redis.Redis()
+    n_calls = int(storage.get(method.__qualname__))
+    print(f"{method.__qualname__} was called {n_calls} times:")
+    inputs = storage.lrange("{}:inputs".format(method.__qualname__), 0, -1)
+    outputs = storage.lrange("{}:outputs".format(method.__qualname__), 0, -1)
+    for item in zip(inputs, outputs):
+        inp = str(item[0], 'utf-8')
+        out = str(item[1], 'utf-8')
+        print(f"{method.__qualname__}(*{inp}) -> {out}")
