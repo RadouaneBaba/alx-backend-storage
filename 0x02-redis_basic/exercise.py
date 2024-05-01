@@ -2,7 +2,7 @@
 """ Cache class implementation """
 import redis
 import uuid
-from typing import Union, Callable
+from typing import Union, Callable, Any
 
 
 class Cache:
@@ -17,11 +17,12 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Callable[[bytes], object]) -> object:
+    def get(self, key: str, fn: Callable[[bytes], Any]) -> Any:
         """ convert bytes to right type """
-        if not self._redis.exists(key):
-            return self._redis.get(key)
-        return fn(self._redis.get(key))
+        value = self._redis.get(key)
+        if not value:
+            return value
+        return fn(value)
 
     def get_str(self, key: str) -> str:
         """ convert bytes to str """
