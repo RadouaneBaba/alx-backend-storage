@@ -19,6 +19,8 @@ class Cache:
 
     def get(self, key: str, fn: Callable[[bytes], object]) -> object:
         """ convert bytes to right type """
+        if not self._redis.exists(key):
+            return self._redis.get(key)
         return fn(self._redis.get(key))
 
     def get_str(self, key: str) -> str:
