@@ -8,10 +8,12 @@ Cache = __import__('exercise').Cache
 
 cache = Cache()
 
-data = b"hello"
-key = cache.store(data)
-print(key)
+TEST_CASES = {
+    b"foo": None,
+    123: int,
+    "bar": lambda d: d.decode("utf-8")
+}
 
-local_redis = redis.Redis()
-print(local_redis.get(key))
-print(cache.get_str("abc"))
+for value, fn in TEST_CASES.items():
+    key = cache.store(value)
+    assert cache.get(key, fn=fn) == value

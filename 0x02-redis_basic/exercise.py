@@ -20,7 +20,7 @@ class Cache:
     def get(self, key: str, fn: Callable[[bytes], Any]) -> Any:
         """ convert bytes to right type """
         value = self._redis.get(key)
-        if not value:
+        if not value or not fn:
             return value
         return fn(value)
 
